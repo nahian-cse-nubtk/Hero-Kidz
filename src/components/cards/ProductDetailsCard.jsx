@@ -1,6 +1,7 @@
 
 import { banglaFont } from "@/app/layout";
 import Image from "next/image";
+import CardButton from "../buttons/CardButton";
 
 const ProductDetailsCard = ({ product }) => {
   const {
@@ -80,9 +81,7 @@ const ProductDetailsCard = ({ product }) => {
 
         {/* Actions */}
         <div className="flex flex-col gap-4 pt-4">
-          <button className="btn btn-primary  w-full">
-            Add to Cart
-          </button>
+            <CardButton  product={product}></CardButton>
           <button className="btn btn-primary btn-outline  w-full">
             Buy Now
           </button>

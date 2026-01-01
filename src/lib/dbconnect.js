@@ -14,3 +14,4 @@ const dbConnect =(collection)=>{
 }
 
 export const productsCollection = dbConnect("products")
+export const usersCollection = dbConnect('users')
