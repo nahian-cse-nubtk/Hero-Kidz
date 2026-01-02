@@ -4,6 +4,6 @@ export async function POST(req) {
   const payload = await req.json();
 
   const result = await postUser(payload);
-
+  
   return Response.json(result);
 }

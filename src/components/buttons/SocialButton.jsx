@@ -1,18 +1,19 @@
 "use client"
 
 import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
+
 import React from 'react';
 import Swal from 'sweetalert2';
 
 const SocialButton = () => {
-    const handleGoogleSignIn =async()=>{
-        const result = await signIn("google",{redirect: false})
-        if(result.ok){
-            Swal.fire("success", "Welcome","success")
-        }
-        else{
-            Swal.fire("error","Sorry","error")
-        }
+  const params = useSearchParams()
+  const callbackUrl = params.get('callbackUrl') || '/'
+
+
+    const handleGoogleSignIn =()=>{
+        signIn("google",{callbackUrl})
+
     }
     return (
         <div>

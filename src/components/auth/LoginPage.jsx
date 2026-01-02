@@ -4,15 +4,21 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import Swal from "sweetalert2";
 import SocialButton from "../buttons/SocialButton";
+import { useSearchParams } from "next/navigation";
 export default function LoginPage() {
+  const parmas = useSearchParams()
+  const callbackUrl = parmas.get("callbackUrl")||"/"
   const handleLogin = async (e) => {
+
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     const result = await signIn('credentials', {
-      redirect: false,
+
       email,
       password,
+      redirect: false,
+      callbackUrl: callbackUrl
     });
 
     if (result.ok) {
@@ -20,6 +26,8 @@ export default function LoginPage() {
         title: "Login Successful",
         icon: "success",
         draggable: true,
+      }).then(() => {
+      window.location.href = callbackUrl;
       });
     }
     else{
@@ -84,7 +92,7 @@ export default function LoginPage() {
         <p className="text-center text-sm text-gray-500 mt-6">
           Don’t have an account?{" "}
           <Link
-            href="/register"
+            href={`/register?callbackUrl=${callbackUrl}`}
             className="text-primary font-medium hover:underline"
           >
             Register

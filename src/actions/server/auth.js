@@ -18,11 +18,9 @@ export const postUser = async (payload) => {
     role: "user",
   };
   const result = await usersCollection.insertOne(newUser);
-  console.log(result);
+
   if (result.acknowledged) {
-    return {
-      result,
-    };
+    return result
   }
 };
 

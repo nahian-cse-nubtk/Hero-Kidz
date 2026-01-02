@@ -1,14 +1,15 @@
 "use client"
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 
 const CardButton = ({product}) => {
-    const isLogin = false;
+    const session = useSession();
     const router = useRouter()
     const path = usePathname()
     const handleAddToCart = ()=>{
-        if(isLogin){
+        if(session.status==="authenticated"){
             alert(product._id)
         }
         else{

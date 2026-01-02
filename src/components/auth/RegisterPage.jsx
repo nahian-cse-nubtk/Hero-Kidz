@@ -1,11 +1,12 @@
 "use client"
 
 import Link from "next/link";
-import { usePathname,useRouter } from "next/navigation";
+import { usePathname,useRouter, useSearchParams } from "next/navigation";
+import { signIn } from 'next-auth/react';
 
 export default function RegisterPage() {
-    const router =useRouter()
-    const path = usePathname()
+    const params = useSearchParams()
+    const callbackUrl = params.get("callbackUrl") ||'/'
     const handleRegister =async(e)=>{
         e.preventDefault()
         const name = e.target.name.value
@@ -20,9 +21,20 @@ export default function RegisterPage() {
       body: JSON.stringify(payload),
     });
     const result = await res.json()
-        if(result.acknowleged){
-            alert("Registration Successful Please Login")
-            router.push(`/login?callbackUrl=${path}`)
+
+
+        if(result.acknowledged){
+          const result = await signIn('credentials',{email,password,callbackUrl})
+
+          if(result.ok){
+            alert("Sccuesfull")
+
+          }
+          else{
+            alert('not successfull')
+          }
+
+
 
         }
     }
@@ -93,7 +105,7 @@ export default function RegisterPage() {
         {/* Footer */}
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{" "}
-          <Link href="/login" className="text-primary font-medium hover:underline">
+          <Link href={`/login?callbackUrl=${callbackUrl}`} className="text-primary font-medium hover:underline">
             Login
           </Link>
         </p>
