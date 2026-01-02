@@ -1,9 +1,12 @@
-"use client";
+"use client"
 
 import Link from "next/link";
+import { usePathname,useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-    const handleRegister =(e)=>{
+    const router =useRouter()
+    const path = usePathname()
+    const handleRegister =async(e)=>{
         e.preventDefault()
         const name = e.target.name.value
         const email = e.target.email.value
@@ -11,7 +14,17 @@ export default function RegisterPage() {
         const payload = {
             name,email,password
         }
-        console.log(payload)
+        const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const result = await res.json()
+        if(result.acknowleged){
+            alert("Registration Successful Please Login")
+            router.push(`/login?callbackUrl=${path}`)
+
+        }
     }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10 px-4">

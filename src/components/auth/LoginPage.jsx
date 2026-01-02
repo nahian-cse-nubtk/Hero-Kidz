@@ -1,28 +1,37 @@
 "use client";
 
 import Link from "next/link";
-
+import { signIn } from "next-auth/react";
+import Swal from "sweetalert2";
 export default function LoginPage() {
-    const handleLogin=(e)=>{
-        e.preventDefault()
-        const email = e.target.email.value
-        const password = e.target.password.value
-        const payload={
-            email,password
-        }
-        console.log(payload)
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+    });
+    
+    if (result.ok) {
+      Swal.fire({
+        title: "Login Successful",
+        icon: "success",
+        draggable: true,
+      });
     }
+    else{
+        Swal.fire("error","email and password donot match","error")
+    }
+  };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-primary/10 to-secondary/10 px-4">
       <div className="w-full max-w-md bg-base-100 shadow-xl rounded-2xl p-8">
         {/* Header */}
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-primary">
-            Welcome Back
-          </h1>
-          <p className="text-gray-500 mt-2">
-            Login to continue to Hero Kidz
-          </p>
+          <h1 className="text-3xl font-bold text-primary">Welcome Back</h1>
+          <p className="text-gray-500 mt-2">Login to continue to Hero Kidz</p>
         </div>
 
         {/* Form */}
