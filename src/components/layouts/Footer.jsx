@@ -4,7 +4,7 @@ import Logo from './Logo';
 
 const Footer = () => {
     return (
-        <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10">
+        <div className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10">
   <aside>
     <Logo></Logo>
     <p>
@@ -51,7 +51,7 @@ const Footer = () => {
       </a>
     </div>
   </nav>
-</footer>
+</div>
     );
 };
 
